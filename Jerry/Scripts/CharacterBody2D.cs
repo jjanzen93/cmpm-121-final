@@ -11,7 +11,6 @@ public partial class CharacterBody2D : Godot.CharacterBody2D
 	[Export]
 	public GameScene GameController { get; set; }
 	private int TILE_SIZE;
-	// Get the gravity from the project settings to be synced with RigidBody nodes.
 	private Vector2 currentLocation = new Vector2(3,2);
 	private bool mayMove = true;
 	private PackedScene plantScene = ResourceLoader.Load("res://Jerry/Scenes/Plant.tscn") as PackedScene;
@@ -41,9 +40,6 @@ public partial class CharacterBody2D : Godot.CharacterBody2D
 	
 	public override void _Process(double delta)
 	{
-		
-		// Get the input direction and handle the movement/deceleration.
-		// As good practice, you should replace UI actions with custom gameplay actions.
 		check_pressed();
 	}
 	private void check_pressed(){

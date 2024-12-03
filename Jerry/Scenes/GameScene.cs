@@ -10,12 +10,14 @@ public partial class GameScene : Node2D
 	{
 	}
 
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
 	}
 	public void increase_points(int num){
 		points += num;
 		pointlabel.Text = "points: "+ points.ToString();
+		if (points >= 10){
+			pointlabel.Text = "you win!";
+		}
 	}
 }

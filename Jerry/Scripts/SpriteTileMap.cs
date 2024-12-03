@@ -18,10 +18,6 @@ public partial class SpriteTileMap : TileMap
 		}
 		public void add_water(int water){
 			this.water += water;
-			
-			if (this.plant != null){
-				//this.plant.update_water(this.water);
-			}
 		}
 		
 		public void add_sun(int sun){
@@ -45,7 +41,6 @@ public partial class SpriteTileMap : TileMap
 		}
     }
 	private Plot[,] cells;
-	// Called when the node enters the scene tree for the first time.
 	private int cellsWidth = 7;
 	private int cellsHeight = 3;
 	public override void _Ready()
@@ -62,7 +57,6 @@ public partial class SpriteTileMap : TileMap
 		time_passes();
 	}
 
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
 	}

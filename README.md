@@ -38,7 +38,7 @@ Your team can earn partial credit for covering only a subset of the F0 requireme
 [F0.e] Each plant on the grid has a distinct type (e.g. one of 3 species) and a growth level (e.g. “level 1”, “level 2”, “level 3”).
     The plants have multiple levels of growth that are moved through based on the water and sun present. 
 [F0.f] Simple spatial rules govern plant growth based on sun, water, and nearby plants (growth is unlocked by satisfying conditions).
-    If there is enough of both water and sun, the plant will move to the next level. Since these values are rerolled every time, the length of time is random. However, certain plant types require more or less resources to grow, thus making their average times different. Additionally, there are adjustments made to the amount of necessary resources depending on the number and type of adjacent plants.
+    If there is enough of both water and sun, the plant will move to the next level. Since these values are rerolled every time, the length of time is random. However, certain plant types require more or less resources to grow, thus making their average times different. Some plants can only grow with other plants of a certain type near them.
 [F0.g] A play scenario is completed when some condition is satisfied (e.g. at least X plants at growth level Y or above).
     The point counter will display a "You Win!" message upon achieving 10 points, which are accumulated by harvesting fully grown plants.
 

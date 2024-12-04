@@ -75,6 +75,9 @@ public partial class SpriteTileMap : TileMap
 	}
 
 	public Plant return_plant(int x, int y){
+		if (x < 0 || x > cellsWidth || y < 0 || y > cellsHeight){
+			return null;
+		}
 		return cells[x,y].get_plant();
 	}
 	public bool cut_plant(int x, int y){

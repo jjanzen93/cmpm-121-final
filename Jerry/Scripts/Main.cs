@@ -8,7 +8,6 @@ public partial class Main : Node
 	
 	public override void _Ready()
 	{
-		save_to_file("saved");
 	}
 
 	public override void _Process(double delta)

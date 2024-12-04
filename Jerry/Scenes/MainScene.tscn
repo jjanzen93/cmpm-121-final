@@ -31,11 +31,15 @@ sources/0 = SubResource("TileSetAtlasSource_3dmhg")
 [node name="MainScene" type="Node"]
 script = ExtResource("1_xgg5g")
 
-[node name="GameScene" type="Node2D" parent="." node_paths=PackedStringArray("pointlabel", "undoButton", "redoButton", "player")]
+[node name="GameScene" type="Node2D" parent="." node_paths=PackedStringArray("pointlabel", "undoButton", "redoButton", "saveButton", "loadManButton", "loadAutoButton", "main", "player")]
 script = ExtResource("2_xatky")
 pointlabel = NodePath("Label")
 undoButton = NodePath("CanvasLayer/Undo")
 redoButton = NodePath("CanvasLayer/Redo")
+saveButton = NodePath("CanvasLayer/Save")
+loadManButton = NodePath("CanvasLayer/LoadManSave")
+loadAutoButton = NodePath("CanvasLayer/LoadAutoSave")
+main = NodePath("..")
 player = NodePath("CharacterBody2D")
 
 [node name="TileMap" type="TileMap" parent="GameScene"]
@@ -77,6 +81,7 @@ anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
 offset_left = -112.0
+offset_right = -1.0
 offset_bottom = 66.0
 grow_horizontal = 0
 focus_mode = 0
@@ -87,8 +92,48 @@ anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
 offset_left = -111.0
-offset_top = 64.0
-offset_bottom = 128.0
+offset_top = 67.0
+offset_bottom = 131.0
 grow_horizontal = 0
 focus_mode = 0
 text = "Redo"
+
+[node name="Save" type="Button" parent="GameScene/CanvasLayer"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -112.0
+offset_top = 132.0
+offset_right = -1.0
+offset_bottom = 196.0
+grow_horizontal = 0
+focus_mode = 0
+text = "Save"
+
+[node name="LoadManSave" type="MenuButton" parent="GameScene/CanvasLayer"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -131.0
+offset_top = 208.0
+offset_right = 17.0
+offset_bottom = 239.0
+grow_horizontal = 0
+action_mode = 1
+text = "Load Manual Save"
+flat = false
+
+[node name="LoadAutoSave" type="MenuButton" parent="GameScene/CanvasLayer"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -131.0
+offset_top = 241.0
+offset_right = 17.0
+offset_bottom = 272.0
+grow_horizontal = 0
+action_mode = 1
+text = "Load Autosave"
+flat = false
+
+[node name="PopupMenu" type="PopupMenu" parent="GameScene"]

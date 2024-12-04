@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
+using System.Web;
 
 public partial class GameScene : Node2D
 {
@@ -15,6 +16,14 @@ public partial class GameScene : Node2D
 	public Button undoButton {get;set;}
 	[Export]
 	public Button redoButton {get;set;}
+	[Export]
+	public Button saveButton {get;set;}
+	[Export]
+	public Button loadManButton {get;set;}
+	[Export]
+	public Button loadAutoButton {get;set;}
+	[Export]
+	public Main main {get;set;}
 	[Export]
 	public CharacterBody2D player {get;set;}
 	public int points = 10;
@@ -43,6 +52,19 @@ public partial class GameScene : Node2D
 				player.undo_action(flip_number(redoArray[lastIndex]));
 				redoArray.RemoveAt(lastIndex);
 			}
+		};
+		saveButton.Pressed += () => {
+			GD.Print("save pressed");
+			save_data();
+			main.save_to_file(return_save_string());
+		};
+		loadManButton.Pressed += () => {
+			GD.Print("load man pressed");
+			load_data(main.read_save());
+		};
+		loadAutoButton.Pressed += () => {
+			GD.Print("load auto pressed");
+			load_data(main.read_save());
 		};
 		
 	}

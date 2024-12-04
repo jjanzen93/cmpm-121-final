@@ -24,4 +24,12 @@ public partial class Main : Node
 		File.WriteAllText(Path.Combine(dir, "save.txt"), data);
 	}
 
+	public string read_save() {
+		string dir = AppDomain.CurrentDomain.BaseDirectory + "/save_files";
+		if (!Directory.Exists(dir)) {
+			Directory.CreateDirectory(dir);
+		}
+		return File.ReadAllText(Path.Combine(dir, "save.txt"));
+	}
+
 }

@@ -30,13 +30,13 @@ Your team can earn partial credit for covering only a subset of the F0 requireme
 [F0.a] You control a character moving over a 2D grid.
     The game utilizes the arrow keys to move the character around the 2D grid. Each of these movements calls a function to increment time passed, as well as a function to shift the player's location on the board.
 [F0.b] You advance time manually in the turn-based simulation.
-    Time is advanced manually via performing actions. Planting, cutting, and moving all advance time forward.
+    Time is advanced manually via performing actions (and is presented as a function call within the action function). Planting, cutting, and moving all advance time forward.
 [F0.c] You can reap or sow plants on grid cells only when you are near them.
-    Planting and cutting works on the space upon which the player is standing, so movement (and thus time advancement) is necessary to interact with multiple cells.
+    Planting and cutting interacts with the cell upon which the player is present, so movement (and thus time advancement) is necessary to interact with multiple cells.
 [F0.d] Grid cells have sun and water levels. The incoming sun and water for each cell is somehow randomly generated each turn. Sun energy cannot be stored in a cell (it is used immediately or lost) while water moisture can be slowly accumulated over several turns.
     Each time an action is performed and time advances, a random amount of water is added to the soil and a random amount of sun is generated per cell. The sun resets and is rerolled every time one of those actions is performed, while the water represents an aggregate of all water recieved over the plant's presence in the game.
 [F0.e] Each plant on the grid has a distinct type (e.g. one of 3 species) and a growth level (e.g. “level 1”, “level 2”, “level 3”).
-    The plants have multiple levels of growth that are moved through based on the water and sun present. 
+    The plants have multiple levels of growth that are moved through based on the water and sun present.
 [F0.f] Simple spatial rules govern plant growth based on sun, water, and nearby plants (growth is unlocked by satisfying conditions).
     If there is enough of both water and sun, the plant will move to the next level. Since these values are rerolled every time, the length of time is random. However, certain plant types require more or less resources to grow, thus making their average times different. Some plants can only grow with other plants of a certain type near them.
 [F0.g] A play scenario is completed when some condition is satisfied (e.g. at least X plants at growth level Y or above).
@@ -46,3 +46,34 @@ Your team can earn partial credit for covering only a subset of the F0 requireme
 Looking back on how you achieved the F0 requirements, how has your team’s plan changed? Did you reconsider any of the choices you previously described for Tools and Materials or your Roles? It would be very suspicious if you didn’t need to change anything. There’s learning value in you documenting how your team’s thinking has changed over time.
 
 The holidays made it difficult to have an even workload, so it may be pertinent to stay more in the loop in the future in order to not get overwhelmed after a lot of work has been done. Additionally, we could better divvy up the work, which will be easier now that schedules are clearer and the project can take a clear priority over other life events. The chosen linter seems to have done a good job with keeping the code clean. When assets become more polished in the future, it could also be a good idea to push them through GitHub rather than share them through another service such as Google Drive.
+
+# Devlog Entry #1 - 12/5/24
+
+## How we satisfied the software requirements
+Using a bulleted list, comment on how each of the 7 + 4 = 11 software requirements is satisfied. If the way your new game version satisfies a requirement is the same as how you described it before, you can simply write "same as last week" for that requirement.
+
+For the F1.a requirement, your team must describe your byte array format as either Structure-of-Arrays or Array-of-Structures (or some mixture of these). You must also use an embedded image to illustrate your memory allocation strategy.
+
+[F0.a] You control a character moving over a 2D grid.
+    Same as last week.
+[F0.b] You advance time manually in the turn-based simulation.
+    Same as last week.
+[F0.c] You can reap or sow plants on grid cells only when you are near them.
+    Same as last week.
+[F0.d] Grid cells have sun and water levels. The incoming sun and water for each cell is somehow randomly generated each turn. Sun energy cannot be stored in a cell (it is used immediately or lost) while water moisture can be slowly accumulated over several turns.
+    Same as last week.
+[F0.e] Each plant on the grid has a distinct type (e.g. one of 3 species) and a growth level (e.g. “level 1”, “level 2”, “level 3”).
+    Same as last week.
+[F0.f] Simple spatial rules govern plant growth based on sun, water, and nearby plants (growth is unlocked by satisfying conditions).
+    Same as last week.
+[F0.g] A play scenario is completed when some condition is satisfied (e.g. at least X plants at growth level Y or above).
+    Same as last week.
+[F1.a] The important state of your game's grid must be backed by a single contiguous byte array in AoS or SoA format. If your game stores the grid state in multiple format, the byte array format must be the primary format (i.e. other formats are decoded from it as needed).
+# JERRY FILL IN HERE
+[F1.b] The player must be able to manually save their progress in the game. This must allow them to load state and continue play another day (i.e. after quitting the game app). The player must be able to manage multiple save files/slots.
+    We implemented several functions that produce new save files for each manual save. These can be accessed from a dropdown menu in-game. The game state is converted into a string, which is then stored in a text file. Each item in the drop down is assigned an ID according to the file number, and when a signal is sent out with that ID attatched, the loading functions return the text state to the actual game state.
+[F1.c] The game must implement an implicit auto-save system to support recovery from unexpected quits. (For example, when the game is launched, if an auto-save entry is present, the game might ask the player "do you want to continue where you left off?" The auto-save entry might or might not be visible among the list of manual save entries available for the player to load as part of F1.b.)
+    Every time an action is committed, the game state is saved to save_0.txt, which is subesquently overwritten every time an autosave occurs. This way, the save file will always have the most recent changes, and we won't have to sort through file dates and things like that. A button is available under the Manual Load drop down to load the most recent autosave.
+[F1.d] The player must be able to undo every major choice (all the way back to the start of play), even from a saved game. They should be able to redo (undo of undo operations) multiple times.
+    The game state byte array contains the present game state in addition to the current undo path. Even after loading a saved game, the state will still reflect that path, and can thus be undone all the way back to the start.
+

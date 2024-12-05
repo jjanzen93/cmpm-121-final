@@ -109,6 +109,7 @@ public partial class GameScene : Node2D
 		loadAutoButton.Pressed += () => {
 			GD.Print("load auto pressed");
 			load_data(main.read_save(0));
+			update_game_state(undoArray[undoArray.Count-1]);
 		};
 		
 	}

@@ -16,7 +16,7 @@ public partial class CharacterBody2D : Godot.CharacterBody2D
 	private int TILE_SIZE;
 	public Vector2 currentLocation = new Vector2(3,2);
 	private bool mayMove = true;
-	private PackedScene plantScene = ResourceLoader.Load("res://Jerry/Scenes/Plant.tscn") as PackedScene;
+	public PackedScene plantScene = ResourceLoader.Load("res://Jerry/Scenes/Plant.tscn") as PackedScene;
 	public PlantType[] plantTypes = {new PlantType(5,5,true, 1,0 ), new PlantType(0,10, false, -1, 1), new PlantType(8,0,false, -1, 2)};
 	public string[] plantSprites = {"Jerry/assets/PlantA.png", "Jerry/assets/PlantB.png", "Jerry/assets/PlantC.png"};
 	public struct PlantType
@@ -86,9 +86,11 @@ public partial class CharacterBody2D : Godot.CharacterBody2D
 					if (PlotTileMap.cut_plant((int)currentLocation[0],(int)currentLocation[1])){
 						GameController.increase_points(1);
 					}
+					GD.Print("CUT");
 					GD.Print(plantvar.return_plant_type());
 					GD.Print(plantvar.return_plant_growth());
-					performs_action((plantvar.return_plant_type()+1) * 10 + plantvar.return_plant_growth());
+
+					performs_action(100 + ( plantvar.return_plant_type()+1) * 10 + plantvar.return_plant_growth());
 				}
 
 				
@@ -98,9 +100,9 @@ public partial class CharacterBody2D : Godot.CharacterBody2D
 	}
 	//call when the player performs an action to pass time
 	private void performs_action(int num){
-		PlotTileMap.time_passes();
+		PlotTileMap.time_passes(GameScene.turn);
 		GD.Print("time passes");
-		GameScene.add_action(num);
+		GameScene.add_action();
 		GameScene.increment_turn();
 	}
 	private void move_character_in_tilemap(int x, int y){
@@ -115,51 +117,5 @@ public partial class CharacterBody2D : Godot.CharacterBody2D
 		GlobalPosition = ExportedTileMap.GlobalPosition + currentLocation * TILE_SIZE;
 		mayMove = true;
 	}
-	public void undo_action(int num){
-		switch (num){
-			case 0:
-				move_character_in_tilemap(-1,0);
-				break;
-			case 1:
-				move_character_in_tilemap(1,0);
-				break;
-			case 2:
-				move_character_in_tilemap(0,1);
-				break;
-			case 3:
-				move_character_in_tilemap(0,-1);
-				break;
-			case 4:
-				PlotTileMap.cut_plant((int)currentLocation[0],(int)currentLocation[1]);
-				break;
-			case 5:
-				Plant newPlant = plantScene.Instantiate() as Plant;
-				PlotTileMap.AddChild(newPlant);
-				newPlant.GlobalPosition = this.GlobalPosition;
-				
-				var newPlantType = plantTypes[GD.Randi() % 3];
-				newPlant.constructor(newPlantType.sunRequired, newPlantType.waterRequired, newPlantType.adjacentNeeded, newPlantType.adjacentType, newPlantType.type, plantSprites[newPlantType.type]);
-				PlotTileMap.sow_seed(newPlant, (int) currentLocation[0],(int) currentLocation[1]);
-				performs_action(4);
-				break;
-		}
-		
-		if (num > 10){
-			GD.Print("here?");
-
-			int plantGrowth = num % 10;
-			GD.Print(plantGrowth);
-			int plantType = num / 10 - 1;
-
-			Plant newPlant = plantScene.Instantiate() as Plant;
-			PlotTileMap.AddChild(newPlant);
-			newPlant.GlobalPosition = this.GlobalPosition;
-			var newPlantType = plantTypes[plantType];
-			newPlant.constructor(newPlantType.sunRequired, newPlantType.waterRequired, newPlantType.adjacentNeeded, newPlantType.adjacentType, newPlantType.type, plantSprites[newPlantType.type]);
-			newPlant.set_growth(plantGrowth);
-			PlotTileMap.sow_seed(newPlant, (int) currentLocation[0],(int) currentLocation[1]);
-			
-		}
-		
-	}
+	
 }

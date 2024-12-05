@@ -78,4 +78,5 @@ public partial class Plant : Node2D
 		this.growLevel = num;
 		this.sprite.Scale = new Vector2(growLevel/(1.0f * maxGrowLevel),growLevel/(1.0f * maxGrowLevel));
 	}
+	
 }

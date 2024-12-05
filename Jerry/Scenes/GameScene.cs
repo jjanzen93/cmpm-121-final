@@ -1,6 +1,7 @@
 using Godot;
 using Godot.NativeInterop;
 using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
@@ -10,6 +11,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading;
 using System.Web;
+using System.Threading.Tasks;
 
 public partial class GameScene : Node2D
 {
@@ -22,7 +24,7 @@ public partial class GameScene : Node2D
 	[Export]
 	public Button saveButton {get;set;}
 	[Export]
-	public Button loadManButton {get;set;}
+	public MenuButton loadManButton {get;set;}
 	[Export]
 	public Button loadAutoButton {get;set;}
 	[Export]
@@ -43,6 +45,16 @@ public partial class GameScene : Node2D
 		GD.Print(undoArray.Count);
 		GD.Print(redoArray.Count);
 		GD.Print("returning save string\n" + return_save_string());
+
+		string d = AppDomain.CurrentDomain.BaseDirectory + "/save_files";
+		string fn = "save_1.txt";
+		int sn = 0;
+		while (File.Exists(Path.Combine(d, fn))) {
+			loadManButton.GetPopup().AddItem(fn, sn);
+			fn = "save_" + sn.ToString() + ".txt";
+			sn += 1;
+		}
+
 		undoButton.Pressed += () => {
 			GD.Print(undoArray.Count);
 			GD.Print("undo pressed");
@@ -71,17 +83,31 @@ public partial class GameScene : Node2D
 		};
 		saveButton.Pressed += () => {
 			GD.Print("save pressed");
+			string dir = AppDomain.CurrentDomain.BaseDirectory + "/save_files";
+			string filename = "save_1.txt";
+			int saved_num = 1;
+			while (File.Exists(Path.Combine(dir, filename))) {
+				filename = "save_" + saved_num.ToString() + ".txt";
+				saved_num += 1;
+			}
+			loadManButton.GetPopup().AddItem(filename, saved_num);
 			save_data();
 			main.save_to_file(return_save_string());
 		};
+
+		
+		
+		loadManButton.GetPopup().IdPressed += (save_num) => {
+			load_data(main.read_save((int)save_num));
+			GD.Print("THING TO PAY ATTENTION TO: " + save_num.ToString());
+			update_game_state(undoArray[undoArray.Count-1]);
+		};
 		loadManButton.Pressed += () => {
 			GD.Print("load man pressed");
-			load_data(main.read_save());
-			update_game_state(undoArray[undoArray.Count-1]);
 		};
 		loadAutoButton.Pressed += () => {
 			GD.Print("load auto pressed");
-			load_data(main.read_save());
+			load_data(main.read_save(0));
 		};
 		
 	}

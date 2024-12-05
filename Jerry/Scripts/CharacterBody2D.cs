@@ -12,6 +12,8 @@ public partial class CharacterBody2D : Godot.CharacterBody2D
 	[Export]
 	public GameScene GameController { get; set; }
 	[Export]
+	public Main main {get;set;}
+	[Export]
 	public GameScene GameScene {get; set;}
 	private int TILE_SIZE;
 	public Vector2 currentLocation = new Vector2(3,2);
@@ -104,6 +106,8 @@ public partial class CharacterBody2D : Godot.CharacterBody2D
 		GD.Print("time passes");
 		GameScene.add_action();
 		GameScene.increment_turn();
+		GameScene.save_data();
+		main.autosave(GameScene.return_save_string());
 	}
 	private void move_character_in_tilemap(int x, int y){
 		currentLocation += new Vector2(x,y);

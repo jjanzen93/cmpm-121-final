@@ -48,11 +48,11 @@ public partial class GameScene : Node2D
 
 		string d = AppDomain.CurrentDomain.BaseDirectory + "/save_files";
 		string fn = "save_1.txt";
-		int sn = 0;
+		int sn = 1;
 		while (File.Exists(Path.Combine(d, fn))) {
 			loadManButton.GetPopup().AddItem(fn, sn);
-			fn = "save_" + sn.ToString() + ".txt";
 			sn += 1;
+			fn = "save_" + sn.ToString() + ".txt";
 		}
 
 		undoButton.Pressed += () => {
@@ -87,9 +87,10 @@ public partial class GameScene : Node2D
 			string filename = "save_1.txt";
 			int saved_num = 1;
 			while (File.Exists(Path.Combine(dir, filename))) {
-				filename = "save_" + saved_num.ToString() + ".txt";
 				saved_num += 1;
+				filename = "save_" + saved_num.ToString() + ".txt";
 			}
+			GD.Print("OTHER THING: " + saved_num.ToString());
 			loadManButton.GetPopup().AddItem(filename, saved_num);
 			save_data();
 			main.save_to_file(return_save_string());
@@ -122,6 +123,7 @@ public partial class GameScene : Node2D
 		turn = gamestate[3];
 		//turn parsed
 		plotmap.parse_gamestate(gamestate);
+		
 	}
 	public string return_save_string(){
 		GD.Print(byteArr.Count);
@@ -142,7 +144,7 @@ public partial class GameScene : Node2D
 		undoArray.Add(inttemparr.ToArray());
 
 	}
-	private void save_data(){
+	public void save_data(){
 		//save undo + redo list to data, this is the savefile
 		byteArr.Clear();
 		int bytecount = 0;

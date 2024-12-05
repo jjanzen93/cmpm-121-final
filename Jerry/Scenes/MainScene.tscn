@@ -56,11 +56,12 @@ layer_0/tile_data = PackedInt32Array(0, 0, 0, 65536, 0, 0, 131072, 0, 0, 196608,
 script = ExtResource("4_vpra6")
 player = NodePath("../CharacterBody2D")
 
-[node name="CharacterBody2D" type="CharacterBody2D" parent="GameScene" node_paths=PackedStringArray("ExportedTileMap", "PlotTileMap", "GameController", "GameScene")]
+[node name="CharacterBody2D" type="CharacterBody2D" parent="GameScene" node_paths=PackedStringArray("ExportedTileMap", "PlotTileMap", "GameController", "main", "GameScene")]
 script = ExtResource("2_clkav")
 ExportedTileMap = NodePath("../TileMap")
 PlotTileMap = NodePath("../SpriteTileMap")
 GameController = NodePath("..")
+main = NodePath("../..")
 GameScene = NodePath("..")
 
 [node name="Sprite2D" type="Sprite2D" parent="GameScene/CharacterBody2D"]

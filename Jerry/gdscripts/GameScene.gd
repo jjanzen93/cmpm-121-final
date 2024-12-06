@@ -18,16 +18,21 @@ var intsize = 1;
 func  _ready():
 	save_game_state();
 	save_data();
-	var temp = return_save_string()
-	load_data(temp)
-	#string d = AppDomain.CurrentDomain.BaseDirectory + "/save_files";
-	#string fn = "save_1.txt";
-	#int sn = 1;
-	#while (File.Exists(Path.Combine(d, fn))) {
-		#loadManButton.GetPopup().AddItem(fn, sn);
-		#sn += 1;
-		#fn = "save_" + sn.ToString() + ".txt";
-	#}
+	var temp = return_save_string();
+	load_data(temp);
+	var dir = DirAccess.open("user://save_files");
+	if dir == null:
+		dir = DirAccess.open("user://");
+		dir.make_dir("save_files");
+		dir = DirAccess.open("user://save_files");
+	var fn = "save_1.txt";
+	var sn = 1;
+	while FileAccess.file_exists("user://save_files/" + fn): 
+		loadManButton.get_popup().add_item(fn, sn);
+		loadManButton.get_popup().id_pressed.connect(_on_man_save_popup_pressed);
+		sn += 1;
+		fn = str("save_", sn, ".txt");
+
 func _on_undo_pressed():
 	if undoArray.size() > 1:
 		
@@ -41,6 +46,24 @@ func _on_redo_pressed():
 		update_game_state(undoArray.back());
 		#progress time
 		plotTileMap.time_passes(turn);
+func _on_save_pressed():
+	var filename = "save_1.txt";
+	var save_num = 1;
+	while FileAccess.file_exists("user://save_files/" + filename): 
+		save_num += 1;
+		filename = str("save_", save_num, ".txt");
+	loadManButton.get_popup().add_item(filename, save_num);
+	loadManButton.get_popup().id_pressed.connect(_on_man_save_popup_pressed);
+	save_data();
+	main.save_to_file(return_save_string());
+
+func _on_man_save_popup_pressed(id):
+	load_data(main.load_from_file(id));
+	update_game_state(undoArray.back());
+
+func _on_autosave_pressed():
+	load_data(main.load_from_file(0));
+	update_game_state(undoArray.back());
 
 func update_game_state(arr : Array):
 	player.currentLocation = Vector2(arr[0],arr[1]);

@@ -64,5 +64,5 @@ func performs_action():
 	print("time passes");
 	gameController.add_action();
 	gameController.increment_turn();
-	#main.autosave(gameController.return_save_string());
+	main.autosave(gameController.return_save_string());
 	pass

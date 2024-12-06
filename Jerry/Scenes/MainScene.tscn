@@ -1,6 +1,7 @@
-[gd_scene load_steps=12 format=3 uid="uid://6f7durqdgbcq"]
+[gd_scene load_steps=13 format=3 uid="uid://6f7durqdgbcq"]
 
 [ext_resource type="Script" path="res://Jerry/gdscripts/GameScene.gd" id="1_b8dfq"]
+[ext_resource type="Script" path="res://Jerry/gdscripts/Main.gd" id="1_mfeat"]
 [ext_resource type="Texture2D" uid="uid://bcubmt288fmbn" path="res://Jerry/assets/dirt.png" id="2_gsi6q"]
 [ext_resource type="Texture2D" uid="uid://egl0ksyoiw4s" path="res://Jerry/assets/grass.png" id="3_wna11"]
 [ext_resource type="Texture2D" uid="uid://2rgcwqh0q7n5" path="res://icon.svg" id="3_ws8ig"]
@@ -28,6 +29,7 @@ sources/0 = SubResource("TileSetAtlasSource_3dmhg")
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hnsln"]
 
 [node name="MainScene" type="Node"]
+script = ExtResource("1_mfeat")
 
 [node name="GameScene" type="Node2D" parent="." node_paths=PackedStringArray("pointLabel", "undoButton", "redoButton", "saveButton", "loadManButton", "loadAutoButton", "main", "player", "plotTileMap")]
 script = ExtResource("1_b8dfq")
@@ -128,9 +130,9 @@ flat = false
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -147.0
+offset_left = -145.0
 offset_top = 241.0
-offset_right = 1.0
+offset_right = 3.0
 offset_bottom = 272.0
 grow_horizontal = 0
 action_mode = 1
@@ -141,3 +143,5 @@ flat = false
 
 [connection signal="pressed" from="GameScene/CanvasLayer/Undo" to="GameScene" method="_on_undo_pressed"]
 [connection signal="pressed" from="GameScene/CanvasLayer/Redo" to="GameScene" method="_on_redo_pressed"]
+[connection signal="pressed" from="GameScene/CanvasLayer/Save" to="GameScene" method="_on_save_pressed"]
+[connection signal="pressed" from="GameScene/CanvasLayer/LoadAutoSave" to="GameScene" method="_on_autosave_pressed"]

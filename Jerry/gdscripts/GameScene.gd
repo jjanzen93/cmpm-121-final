@@ -14,7 +14,7 @@ var turn := 0;
 var byteArr : PackedByteArray;
 var undoArray := [];
 var redoArray := [];
-var intsize = 1;
+var intsize = 4;
 func  _ready():
 	save_game_state();
 	save_data();
@@ -83,7 +83,7 @@ func return_save_string() -> String:
 	var newstring = "";
 	for byte in byteArr:
 		newstring += str(byte);
-	print(newstring);
+	
 	return newstring;
 
 func save_game_state():
@@ -111,20 +111,19 @@ func save_data():
 	]; #takes 8 bytes of space
 	var offset = 0;
 	for thisint in inttemparr:
-		byteArr.encode_s8(offset,thisint);
+		byteArr.encode_s32(offset,thisint);
 		offset += intsize;
 	
 	for undo in undoArray:
 		for thisint in undo:
-			byteArr.encode_s8(offset,thisint);
+			byteArr.encode_s32(offset,thisint);
 			offset += intsize;
 	
 	for redo in redoArray:
 		for thisint in redo:
-			byteArr.encode_s8(offset,thisint);
+			byteArr.encode_s32(offset,thisint);
 			offset += intsize;
-	print("data saved")
-	print(byteArr);
+	
 
 func load_data(str : String):
 	var arr = [];
@@ -137,8 +136,7 @@ func load_data(str : String):
 	index += intsize;
 	undoArray.clear();
 	redoArray.clear();
-	print(undoArraySize);
-	print(redoArraySize);
+	
 	
 	for n in undoArraySize:
 		var temparr = [];

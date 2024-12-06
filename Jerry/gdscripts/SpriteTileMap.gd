@@ -80,7 +80,7 @@ func parse_gamestate(gamestate : Array):
 			var newPlant : Plant = player.plantScene.instantiate();
 			add_child(newPlant);
 			newPlant.global_position = Vector2(i * 128 + 128, j * 128 + 128);
-			var newPlantType = player.plantTypes[currentCell % 10];
+			var newPlantType = player.plantTypes[(currentCell % 10)];
 			newPlant.constructor(newPlantType.sunRequired, newPlantType.waterRequired, newPlantType.adjacentType, newPlantType.type, player.plantSprites[newPlantType.type]);
 			sow_seed(newPlant, i,j);
 			newPlant.set_growth(currentCell/10);

@@ -73,6 +73,7 @@ func update_game_state(arr : Array):
 	
 	points = arr[2];
 	#points parsed
+	pointLabel.text = str("points:",points);
 	
 	turn = arr[3];
 	#turn parsed
@@ -80,11 +81,8 @@ func update_game_state(arr : Array):
 	plotTileMap.parse_gamestate(arr);
 
 func return_save_string() -> String:
-	var newstring = "";
-	for byte in byteArr:
-		newstring += str(byte);
 	
-	return newstring;
+	return byteArr.hex_encode();
 
 func save_game_state():
 	var inttemparr = [
@@ -126,13 +124,14 @@ func save_data():
 	
 
 func load_data(str : String):
-	var arr = [];
-	for byte in str:
-		arr.append(int(byte));
+	var arr = str.hex_decode();
+	
 	var index = 0;
-	var undoArraySize = arr[index];
+	var undoArraySize = arr.decode_s32(index);
+	
 	index += intsize;
-	var redoArraySize = arr[index];
+	var redoArraySize = arr.decode_s32(index);
+	
 	index += intsize;
 	undoArray.clear();
 	redoArray.clear();
@@ -141,13 +140,13 @@ func load_data(str : String):
 	for n in undoArraySize:
 		var temparr = [];
 		for i in 36:
-			temparr.append(arr[index]);
+			temparr.append(arr.decode_s32(index));
 			index += intsize;
 		undoArray.append(temparr);
 	for n in redoArraySize:
 		var temparr = [];
 		for i in 36:
-			temparr.append(arr[index]);
+			temparr.append(arr.decode_s32(index));
 			index += intsize;
 		redoArray.append(temparr);
 	#readdata unnecessary

@@ -61,7 +61,7 @@ func return_cells_for_undo() -> Array:
 			if cells[i][j].plant == null:
 				arr.append(0);
 			else:
-				arr.Add(cells[i][j].plant.return_plant_growth() * 10 + cells[i][j].plant.return_plant_type());
+				arr.append(cells[i][j].plant.return_plant_growth() * 10 + cells[i][j].plant.return_plant_type());
 	return arr;
 
 func parse_gamestate(gamestate : Array):

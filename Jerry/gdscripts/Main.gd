@@ -26,7 +26,7 @@ func save_to_file(data):
 	while filename != "":
 		filename = dir.get_next();
 		save_num += 1;
-	filename = str("user://save_", save_num, ".txt");
+	filename = str("user://save_files/save_", save_num, ".txt");
 	var file = FileAccess.open(filename, FileAccess.WRITE);
 	file.store_string(data);
 
@@ -37,11 +37,11 @@ func autosave(data):
 		dir.make_dir("save_files");
 		dir = DirAccess.open("user://save_files");
 
-	var file = FileAccess.open("user://save_0.txt", FileAccess.WRITE);
+	var file = FileAccess.open("user://save_files/save_0.txt", FileAccess.WRITE);
 	file.store_string(data);
 
 func load_from_file(save_num):
-	var file = FileAccess.open("user://save_game.dat", FileAccess.READ);
+	var file = FileAccess.open(str("user://save_files/save_", save_num, ".txt"), FileAccess.READ);
 	var data = file.get_as_text();
 	return data;
 

@@ -29,9 +29,10 @@ func  _ready():
 	var sn = 1;
 	while FileAccess.file_exists("user://save_files/" + fn): 
 		loadManButton.get_popup().add_item(fn, sn);
-		loadManButton.get_popup().id_pressed.connect(_on_man_save_popup_pressed);
 		sn += 1;
 		fn = str("save_", sn, ".txt");
+	loadManButton.get_popup().id_pressed.connect(_on_man_save_popup_pressed);
+	main.autosave(return_save_string());
 
 func _on_undo_pressed():
 	if undoArray.size() > 1:
@@ -53,7 +54,6 @@ func _on_save_pressed():
 		save_num += 1;
 		filename = str("save_", save_num, ".txt");
 	loadManButton.get_popup().add_item(filename, save_num);
-	loadManButton.get_popup().id_pressed.connect(_on_man_save_popup_pressed);
 	save_data();
 	main.save_to_file(return_save_string());
 
@@ -64,6 +64,7 @@ func _on_man_save_popup_pressed(id):
 func _on_autosave_pressed():
 	load_data(main.load_from_file(0));
 	update_game_state(undoArray.back());
+
 
 func update_game_state(arr : Array):
 	player.currentLocation = Vector2(arr[0],arr[1]);

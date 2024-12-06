@@ -34,7 +34,7 @@ public partial class GameScene : Node2D
 	[Export]
 	public SpriteTileMap plotmap {get;set;}
 	public int points = 10;
-	public int turn = 0;
+	public int turn = 0; // 4 bytes
 	public List<byte> byteArr = new List<byte>();
 	public List<int[]> undoArray = new List<int[]>();
 	public List<int[]> redoArray = new List<int[]>();

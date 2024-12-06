@@ -20,12 +20,12 @@ public partial class Plant : Node2D
 	
 	public void constructor(int sun_required, int water_required, bool adjacent_needed, int adjacent_type, int type, string newSprite){
 		this.sunRequired = sun_required;
-			this.waterRequired = water_required;
-			this.adjacentNeeded = adjacent_needed;
-			this.adjacentType = adjacent_type;
-			this.type = type;
-			sprite.Texture = GD.Load<Texture2D>(newSprite);
-			this.adjacentSatisfied = !adjacent_needed;
+		this.waterRequired = water_required;
+		this.adjacentNeeded = adjacent_needed;
+		this.adjacentType = adjacent_type;
+		this.type = type;
+		sprite.Texture = GD.Load<Texture2D>(newSprite);
+		this.adjacentSatisfied = !adjacent_needed;
 			
 	}
 	public void update_sun(int sun, int water){

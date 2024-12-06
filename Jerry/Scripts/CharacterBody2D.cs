@@ -92,7 +92,7 @@ public partial class CharacterBody2D : Godot.CharacterBody2D
 					GD.Print(plantvar.return_plant_type());
 					GD.Print(plantvar.return_plant_growth());
 
-					performs_action(100 + ( plantvar.return_plant_type()+1) * 10 + plantvar.return_plant_growth());
+					performs_action(10);
 				}
 
 				

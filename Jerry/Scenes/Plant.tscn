@@ -1,10 +1,10 @@
 [gd_scene load_steps=3 format=3 uid="uid://bvupaf68swvus"]
 
-[ext_resource type="Script" path="res://Jerry/Scripts/Plant.cs" id="1_2iwjk"]
+[ext_resource type="Script" path="res://Jerry/gdscripts/Plant.gd" id="1_buapu"]
 [ext_resource type="Texture2D" uid="uid://c5owjgolnpbw0" path="res://Jerry/assets/plant.png" id="2_3oynx"]
 
 [node name="Plant" type="Node2D" node_paths=PackedStringArray("sprite", "label")]
-script = ExtResource("1_2iwjk")
+script = ExtResource("1_buapu")
 sprite = NodePath("Sprite2D")
 label = NodePath("Label")
 

@@ -1,12 +1,11 @@
-[gd_scene load_steps=13 format=3 uid="uid://6f7durqdgbcq"]
+[gd_scene load_steps=12 format=3 uid="uid://6f7durqdgbcq"]
 
-[ext_resource type="Script" path="res://Jerry/Scripts/Main.cs" id="1_xgg5g"]
-[ext_resource type="Script" path="res://Jerry/Scripts/CharacterBody2D.cs" id="2_clkav"]
+[ext_resource type="Script" path="res://Jerry/gdscripts/GameScene.gd" id="1_b8dfq"]
 [ext_resource type="Texture2D" uid="uid://bcubmt288fmbn" path="res://Jerry/assets/dirt.png" id="2_gsi6q"]
-[ext_resource type="Script" path="res://Jerry/Scenes/GameScene.cs" id="2_xatky"]
 [ext_resource type="Texture2D" uid="uid://egl0ksyoiw4s" path="res://Jerry/assets/grass.png" id="3_wna11"]
 [ext_resource type="Texture2D" uid="uid://2rgcwqh0q7n5" path="res://icon.svg" id="3_ws8ig"]
-[ext_resource type="Script" path="res://Jerry/Scripts/SpriteTileMap.cs" id="4_vpra6"]
+[ext_resource type="Script" path="res://Jerry/gdscripts/SpriteTileMap.gd" id="3_y24fs"]
+[ext_resource type="Script" path="res://Jerry/gdscripts/player.gd" id="6_7k1b0"]
 
 [sub_resource type="TileSet" id="TileSet_lg3v6"]
 tile_size = Vector2i(128, 128)
@@ -29,19 +28,18 @@ sources/0 = SubResource("TileSetAtlasSource_3dmhg")
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hnsln"]
 
 [node name="MainScene" type="Node"]
-script = ExtResource("1_xgg5g")
 
-[node name="GameScene" type="Node2D" parent="." node_paths=PackedStringArray("pointlabel", "undoButton", "redoButton", "saveButton", "loadManButton", "loadAutoButton", "main", "player", "plotmap")]
-script = ExtResource("2_xatky")
-pointlabel = NodePath("Label")
+[node name="GameScene" type="Node2D" parent="." node_paths=PackedStringArray("pointLabel", "undoButton", "redoButton", "saveButton", "loadManButton", "loadAutoButton", "main", "player", "plotTileMap")]
+script = ExtResource("1_b8dfq")
+pointLabel = NodePath("Label")
 undoButton = NodePath("CanvasLayer/Undo")
 redoButton = NodePath("CanvasLayer/Redo")
 saveButton = NodePath("CanvasLayer/Save")
 loadManButton = NodePath("CanvasLayer/LoadManSave")
 loadAutoButton = NodePath("CanvasLayer/LoadAutoSave")
 main = NodePath("..")
-player = NodePath("CharacterBody2D")
-plotmap = NodePath("SpriteTileMap")
+player = NodePath("player")
+plotTileMap = NodePath("SpriteTileMap")
 
 [node name="TileMap" type="TileMap" parent="GameScene"]
 position = Vector2(128, 128)
@@ -53,22 +51,21 @@ position = Vector2(64, 64)
 tile_set = SubResource("TileSet_o5xh4")
 format = 2
 layer_0/tile_data = PackedInt32Array(0, 0, 0, 65536, 0, 0, 131072, 0, 0, 196608, 0, 0, 196609, 0, 0, 196610, 0, 0, 196611, 0, 0, 196612, 0, 0, 196613, 0, 0, 196614, 0, 0, 196615, 0, 0, 131079, 0, 0, 65543, 0, 0, 7, 0, 0, 6, 0, 0, 5, 0, 0, 4, 0, 0, 3, 0, 0, 2, 0, 0, 65538, 0, 0, 65537, 0, 0, 1, 0, 0, 131073, 0, 0, 131074, 0, 0, 131075, 0, 0, 131076, 0, 0, 65540, 0, 0, 65541, 0, 0, 65539, 0, 0, 131077, 0, 0, 131078, 0, 0, 65542, 0, 0, -1, 1, 0, 65535, 1, 0, 131071, 1, 0, 196607, 1, 0, 262143, 1, 0, 327679, 1, 0, 262144, 1, 0, 262145, 1, 0, 262146, 1, 0, 262147, 1, 0, 262148, 1, 0, 262149, 1, 0, 262150, 1, 0, 262151, 1, 0, 262152, 1, 0, 196616, 1, 0, 131080, 1, 0, 65544, 1, 0, 8, 1, 0, -65528, 1, 0, -65529, 1, 0, -65530, 1, 0, -65531, 1, 0, -65532, 1, 0, -65533, 1, 0, -65534, 1, 0, -65535, 1, 0, -65536, 1, 0)
-script = ExtResource("4_vpra6")
-player = NodePath("../CharacterBody2D")
+script = ExtResource("3_y24fs")
+player = NodePath("../player")
 
-[node name="CharacterBody2D" type="CharacterBody2D" parent="GameScene" node_paths=PackedStringArray("ExportedTileMap", "PlotTileMap", "GameController", "main", "GameScene")]
-script = ExtResource("2_clkav")
-ExportedTileMap = NodePath("../TileMap")
-PlotTileMap = NodePath("../SpriteTileMap")
-GameController = NodePath("..")
+[node name="player" type="CharacterBody2D" parent="GameScene" node_paths=PackedStringArray("playerMoveMap", "plotTileMap", "gameController", "main")]
+script = ExtResource("6_7k1b0")
+playerMoveMap = NodePath("../TileMap")
+plotTileMap = NodePath("../SpriteTileMap")
+gameController = NodePath("..")
 main = NodePath("../..")
-GameScene = NodePath("..")
 
-[node name="Sprite2D" type="Sprite2D" parent="GameScene/CharacterBody2D"]
+[node name="Sprite2D" type="Sprite2D" parent="GameScene/player"]
 scale = Vector2(0.7, 0.7)
 texture = ExtResource("3_ws8ig")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="GameScene/CharacterBody2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GameScene/player"]
 shape = SubResource("RectangleShape2D_hnsln")
 
 [node name="Label" type="Label" parent="GameScene"]
@@ -141,3 +138,6 @@ text = "Load Autosave"
 flat = false
 
 [node name="PopupMenu" type="PopupMenu" parent="GameScene"]
+
+[connection signal="pressed" from="GameScene/CanvasLayer/Undo" to="GameScene" method="_on_undo_pressed"]
+[connection signal="pressed" from="GameScene/CanvasLayer/Redo" to="GameScene" method="_on_redo_pressed"]

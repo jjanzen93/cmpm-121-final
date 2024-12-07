@@ -8,7 +8,44 @@ var TILE_SIZE : int;
 var currentLocation : Vector2 = Vector2(0,0);
 var mayMove : bool = true;
 var plantScene = preload("res://Jerry/Scenes/Plant.tscn");
-var plantTypes = [PlantType.new(5,5,1,0), PlantType.new(0,10,-1,1), PlantType.new(8,0,-1,2)]; #public PlantType[] plantTypes = {new PlantType(5,5,true, 1,0 ), new PlantType(0,10, false, -1, 1), new PlantType(8,0,false, -1, 2)};
+var plantTypes = [
+{"name": "sunflower",
+"sprite" : "Jerry/assets/PlantC.png",
+"checkGrowth": func checkGrowth(plant : Plant, water : int, sun : int, cells : Array):
+	if sun >= 8:
+		plant.grow();
+	plant.label.text = str("sun:", sun," water:",water);
+},
+{"name": "greenplant",
+"sprite": "Jerry/assets/PlantB.png",
+"checkGrowth": func checkGrowth(plant : Plant, water : int, sun : int, cells : Array):
+	if water > 10:
+		plant.grow();
+	plant.label.text = str("sun:", sun," water:",water);
+},
+{"name": "pickygrower",
+"sprite": "Jerry/assets/PlantA.png",
+"checkGrowth": func checkGrowth(plant : Plant, water : int, sun : int, cells : Array):
+	var north = false;
+	var south = false;
+	var west = false;
+	var east = false;
+	var y = plant.currentLocation[1];
+	var x = plant.currentLocation[0];
+	var adjacentType = "pickygrower";
+	if y - 1 >= 0:
+		north = cells[x][y-1].get_plant() != null && cells[x][y-1].get_plant().return_plant_name() == adjacentType;
+	if y + 1 < cells[0].size():
+		south = cells[x][y+1].get_plant() != null && cells[x][y+1].get_plant().return_plant_name() == adjacentType;
+	if x - 1 >= 0:
+		west = cells[x-1][y].get_plant() != null && cells[x-1][y].get_plant().return_plant_name() == adjacentType;
+	if x + 1 < cells.size():
+		east = cells[x+1][y].get_plant() != null && cells[x+1][y].get_plant().return_plant_name() == adjacentType;
+	if (north || south || west || east) && sun >= 5 && water >= 5:
+		plant.grow();
+	plant.label.text = str("sun:", sun," water:",water);
+}];
+
 var plantSprites : Array = ["Jerry/assets/PlantA.png", "Jerry/assets/PlantB.png", "Jerry/assets/PlantC.png"];
 
 func _ready():
@@ -53,9 +90,9 @@ func plant_seed_pressed():
 			var newPlant = plantScene.instantiate();
 			plotTileMap.add_child(newPlant);
 			newPlant.global_position = global_position;
-			
-			var newPlantType = plantTypes[randi_range(0,2)];
-			newPlant.constructor(newPlantType.sunRequired, newPlantType.waterRequired, newPlantType.adjacentType, newPlantType.type, plantSprites[newPlantType.type]);
+			var randNum = randi_range(0,plantTypes.size()-1);
+			var newPlantType = plantTypes[randNum];
+			newPlant.constructor(newPlantType.checkGrowth, newPlantType.name, newPlantType.sprite,currentLocation, randNum);
 			plotTileMap.sow_seed(newPlant, currentLocation[0],currentLocation[1]);
 	performs_action();
 

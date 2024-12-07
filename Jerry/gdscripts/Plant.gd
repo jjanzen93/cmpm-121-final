@@ -3,30 +3,33 @@ extends Node2D;
 
 @export var sprite : Sprite2D;
 @export var label : Label;
-var waterRequired : int;
-var sunRequired : int;
-var adjacentType : int;
-var type : int;
+
+var plantName : String;
 var growLevel := 1;
 var maxGrowLevel := 3;
-var adjacentSatisfied : bool;
-
-func constructor(sun_required, water_required, adjacent_type, newtype, newSprite):
-	sunRequired = sun_required;
-	waterRequired = water_required;
-	adjacentType = adjacent_type;
-	type = newtype;
+var checkGrowCondition : Callable;
+var currentLocation : Vector2;
+var type : int;
+func constructor(checkGrowth, newName, newSprite, newLocation, newtype):
+	checkGrowCondition = checkGrowth;
+	
+	plantName = newName;
 	sprite.texture = load(newSprite);
-	adjacentSatisfied = adjacent_type < 0;
+	
+	currentLocation = newLocation;
+	type = newtype;
 
+func checkGrowth(watertotal : int, sun : int, cells : Array):
+	checkGrowCondition.call(self, watertotal, sun, cells);
+"""
 func update_sun(sun, water):
 	
 	
 	if(sun >= sunRequired && water >= waterRequired && adjacentSatisfied):
 		
 		grow();
-	label.text = str("sun:", sun," water:",water);
 	
+"""
 func grow():
 	if (growLevel >= maxGrowLevel):
 		return;
@@ -35,7 +38,7 @@ func grow():
 	
 func is_grown():
 	return growLevel == maxGrowLevel;
-
+"""
 func check_adjacency(x : int, y : int, cells : Array):
 	#checks if adjacent tiles match the needed planttype to satisfy growth conditions
 	var north = false;
@@ -55,9 +58,9 @@ func check_adjacency(x : int, y : int, cells : Array):
 		east = cells[x+1][y].get_plant() != null && cells[x+1][y].get_plant().return_plant_type() == adjacentType;
 	if north || south || west || east:
 		adjacentSatisfied = true;
-	
-func return_plant_type() -> int:
-	return type;
+"""
+func return_plant_name() -> String:
+	return plantName;
 
 func return_plant_growth() -> int:
 	return growLevel;

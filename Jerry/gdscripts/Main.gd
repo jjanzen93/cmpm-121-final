@@ -93,9 +93,9 @@ func update_value(name, value):
 		print("Base value not found.");
 
 func check_condition(condition):
-	if condition.trackedValue == "time_passed" && plotTileMap.time_passed >= condition.triggerAmount:
+	if condition.trackedValue == "time_passed" && game.turn >= condition.triggerAmount:
 		return true;
-	if condition.trackedValue == "actions_taken" && game.turn >= condition.triggerAmount:
+	if condition.trackedValue == "point_threshold" && game.points >= condition.triggerAmount:
 		return true;
 	if condition.trackedValue == "currently_planted" && plotTileMap.check_currently_growing() >= condition.triggerAmount:
 		return true;

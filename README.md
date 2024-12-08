@@ -86,3 +86,54 @@ Looking back on how you achieved the new F1 requirements, how has your team’s 
 
 Working in C# has definitely come with its fair share of challenges, such as a lack of online resources and documentation, or at the very least a clear difficulty in finding those resources. Seeing as how we will be switching to GDScript soon, we're glad we'll have the chance to refactor into something a bit more readable, in addition to the web capabilities present using GDScript rather than .NET/C#. Sonarlint may not work with GDScript in the same way, so a choice will have to be made in either manually upholding code standards or finding a linter that works with the language. As far as the course of F1, we found that we were able to split up each of the parts into clear segments for each of us to be in charge of, with Jack in charge of saves and autosaves, and Jerry in charge of byte array implementation and the undo sequence. Our communication was also a lot better since the holiday season was over, so the process was a lot more efficient. Looking ahead, we will continue splitting tasks up in this manner as we move into the latter half of this project, and keep looking for ways to improve both communication and collaboration.
 
+# Devlog Entry #2 - 12/8/24
+
+## How we satisfied the software requirements
+### F0+F1
+
+No major changes were made. The only new thing is tracking the number of currently planted plants for use in the external DSL.
+
+### External DSL for Scenario Design
+
+The external DSL is not based on a pre-existing data language, but is rather built to appear closer to javascript, with calls to pseudo-functions and some limited variable assignment with conditions. I felt that this was most familiar to me and I already had a clear idea of how to parse it from a .txt file, so it seemed like the logical way to go.
+There is a set of values that can be changed by using “val” or “rul”. These are the maximum and minimum amounts of sun and water (sun_min, sun_max, water_min, water_max), points (points_earned), and the accumulation of sun and water (sun_accumulates, water_accumulates).
+Conditions can be created by using “con”. These are assigned a name (e.g. below these are timePassedCondition and currentlyPlantedCondition, but they can have any name the author wishes), and are created using a pseudo-function call to “buildcondition”, in which you specify the attribute of the game state being tracked, and the value at which the condition will be satisfied. Available attributes are the amount of time passed (time_passed), amount of points (point_threshold), and number of plants growing at once (currently_growing).
+Lastly, events can be created by using “eve”. These call a pseudo-function, “buildevent” that takes in the name of the given condition, a value to change, and the number to change that value to. Right now, buildevent can take points_earned as a value to change, and the number will increase the point amount by that much.
+
+```
+val sun_max = 0;
+rul water_accumulates = false;
+con timePassedCondition = buildcondition(time_passed, 4);
+con currentlyPlantedCondition = buildcondition(currently_planted, 10);
+eve buildevent(timePassedCondition, points_earned, 10);
+eve buildevent(currentlyPlantedCondition, points_earned, 15);
+end
+```
+
+This program sets the max sun production to 0 and makes it impossible for water to accumulate on plants. This guarantees no plants will grow. It then creates two conditions, one checking for if 4 turns have passed, and one checking if 10 plants exist at the same time. Then an event is created where if that 4-turn condition is satisfied, the player gains 10 points. After this, an event is created where if the 10-plant condition is satisfied, the player gains 15 points. Then, the phrase “end” indicates that the file is done.
+
+### Internal DSL for Plants and Growth Conditions
+
+This is an example of how to add a plant to the dictionary: plantTypes
+
+```
+{"name": "sunflower",
+"sprite" : "Jerry/assets/PlantC.png",
+"checkGrowth": func checkGrowth(plant : Plant, water : int,
+ sun : int, cells : Array):
+	if sun >= 8:
+		plant.grow();
+	plant.label.text = str("sun:", sun," water:",water);
+}
+```
+In the internal DSL, you can use GDScript in a dictionary to define the plants’ names, sprites, and how they grow. Using GDScript allows for the user to define more complicated data types that are not supported in our external DSL. You are also able to look at the code and find workarounds to issues internally.
+
+### Switch to Alternate Platform
+
+To switch from C# to GDScript, we had to recreate the files that were attached to the nodes. We chose this change because we predicted it would  be smooth and GDScript supports web builds. The logic was able to be carried over, which made the change much quicker than writing it from scratch. Structs don’t exist in GDScript, so we had to replace them with classes and dictionaries.
+Porting file saving from C# to GDScript was relatively simple, though the methods used to accessing, writing to, reading from, and creating these files was different between the two. Reading through the documentation made this fairly simple. Additionally, the new methods made it far easier to store save files in a way that would be consistent no matter who was running the game or where it was being run.
+
+## Reflection
+
+Maintaining clean code has been a bit more challenging without the linter made available by the popularity of the language we were previously working in. Additionally, we are now using different IDEs according to our familiarity and comfort, which has had only the positive effect of neither one of us feeling particularly out of place.
+In the future, it would be pertinent to go through our code and ensure that at least naming conventions are consistent, and getting rid of any unused variables associated with some functionality that we were experimenting with. Not having that linter, especially when learning a new language and platform (as Jack is doing) poses some great challenges on both his and Jerry’s part that make for a deeply educational collaborative experience.

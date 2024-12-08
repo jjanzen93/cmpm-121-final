@@ -40,7 +40,7 @@ func _on_undo_pressed():
 		update_game_state(undoArray.back());
 		#regress time
 		plotTileMap.time_regresses(turn);
-		if turn < 
+		main.check_undone_events();
 func _on_redo_pressed():
 	if redoArray.size() > 0:
 		undoArray.append(redoArray.pop_back());

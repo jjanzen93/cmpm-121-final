@@ -59,13 +59,6 @@ layer_0/tile_data = PackedInt32Array(0, 0, 0, 65536, 0, 0, 131072, 0, 0, 196608,
 script = ExtResource("3_y24fs")
 player = NodePath("../player")
 main = NodePath("../..")
-sun_min = null
-sun_max = null
-water_min = null
-water_max = null
-time_passed = null
-sun_accumulates = null
-water_accumulates = null
 
 [node name="player" type="CharacterBody2D" parent="GameScene" node_paths=PackedStringArray("playerMoveMap", "plotTileMap", "gameController", "main")]
 script = ExtResource("6_7k1b0")

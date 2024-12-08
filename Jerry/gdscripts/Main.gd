@@ -97,11 +97,7 @@ func check_condition(condition):
 		return true;
 	if condition.trackedValue == "actions_taken" && game.turn >= condition.triggerAmount:
 		return true;
-	if condition.trackedValue == "plants_cut" && player.plants_cut >= condition.triggerAmount:
-		return true;
-	if condition.trackedValue == "plants_planted" && player.plants_planted >= condition.triggerAmount:
-		return true;
-	if condition.trackedValue == "spaces_moved" && player.spaces_moved >= condition.triggerAmount:
+	if condition.trackedValue == "currently_planted" && plotTileMap.check_currently_growing() >= condition.triggerAmount:
 		return true;
 	return false;
 
@@ -120,7 +116,6 @@ func build_event(conditionName, valueName, changedAmount):
 			newEvent.condition = condition;
 			newEvent.valueName = valueName;
 			newEvent.changedAmount = changedAmount;
-			newEvent.occurred = false;
 			return newEvent;
 	print("Condition not found");
 	return null;

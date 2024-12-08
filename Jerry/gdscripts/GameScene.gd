@@ -9,8 +9,8 @@ extends Node2D
 @export var main : Node;
 @export var player : CharacterBody2D;
 @export var plotTileMap : TileMap;
+@export var turn := 0;
 var points := 0;
-var turn := 0;
 var byteArr : PackedByteArray;
 var undoArray := [];
 var redoArray := [];
@@ -32,11 +32,10 @@ func  _ready():
 		sn += 1;
 		fn = str("save_", sn, ".txt");
 	loadManButton.get_popup().id_pressed.connect(_on_man_save_popup_pressed);
-	main.autosave(return_save_string());
 
 func _on_undo_pressed():
 	if undoArray.size() > 1:
-		
+		player.actions_taken -= 1;
 		redoArray.append(undoArray.pop_back());
 		update_game_state(undoArray.back());
 		#regress time

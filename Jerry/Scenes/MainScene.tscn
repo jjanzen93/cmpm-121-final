@@ -28,8 +28,9 @@ sources/0 = SubResource("TileSetAtlasSource_3dmhg")
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hnsln"]
 
-[node name="MainScene" type="Node"]
+[node name="MainScene" type="Node" node_paths=PackedStringArray("plotTileMap")]
 script = ExtResource("1_mfeat")
+plotTileMap = NodePath("GameScene/SpriteTileMap")
 
 [node name="GameScene" type="Node2D" parent="." node_paths=PackedStringArray("pointLabel", "undoButton", "redoButton", "saveButton", "loadManButton", "loadAutoButton", "main", "player", "plotTileMap")]
 script = ExtResource("1_b8dfq")
@@ -48,13 +49,21 @@ position = Vector2(128, 128)
 tile_set = SubResource("TileSet_lg3v6")
 format = 2
 
-[node name="SpriteTileMap" type="TileMap" parent="GameScene" node_paths=PackedStringArray("player")]
+[node name="SpriteTileMap" type="TileMap" parent="GameScene" node_paths=PackedStringArray("player", "main")]
 position = Vector2(64, 64)
 tile_set = SubResource("TileSet_o5xh4")
 format = 2
 layer_0/tile_data = PackedInt32Array(0, 0, 0, 65536, 0, 0, 131072, 0, 0, 196608, 0, 0, 196609, 0, 0, 196610, 0, 0, 196611, 0, 0, 196612, 0, 0, 196613, 0, 0, 196614, 0, 0, 196615, 0, 0, 131079, 0, 0, 65543, 0, 0, 7, 0, 0, 6, 0, 0, 5, 0, 0, 4, 0, 0, 3, 0, 0, 2, 0, 0, 65538, 0, 0, 65537, 0, 0, 1, 0, 0, 131073, 0, 0, 131074, 0, 0, 131075, 0, 0, 131076, 0, 0, 65540, 0, 0, 65541, 0, 0, 65539, 0, 0, 131077, 0, 0, 131078, 0, 0, 65542, 0, 0, -1, 1, 0, 65535, 1, 0, 131071, 1, 0, 196607, 1, 0, 262143, 1, 0, 327679, 1, 0, 262144, 1, 0, 262145, 1, 0, 262146, 1, 0, 262147, 1, 0, 262148, 1, 0, 262149, 1, 0, 262150, 1, 0, 262151, 1, 0, 262152, 1, 0, 196616, 1, 0, 131080, 1, 0, 65544, 1, 0, 8, 1, 0, -65528, 1, 0, -65529, 1, 0, -65530, 1, 0, -65531, 1, 0, -65532, 1, 0, -65533, 1, 0, -65534, 1, 0, -65535, 1, 0, -65536, 1, 0)
 script = ExtResource("3_y24fs")
 player = NodePath("../player")
+main = NodePath("../..")
+sun_min = null
+sun_max = null
+water_min = null
+water_max = null
+time_passed = null
+sun_accumulates = null
+water_accumulates = null
 
 [node name="player" type="CharacterBody2D" parent="GameScene" node_paths=PackedStringArray("playerMoveMap", "plotTileMap", "gameController", "main")]
 script = ExtResource("6_7k1b0")

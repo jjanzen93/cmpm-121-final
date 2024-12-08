@@ -1,9 +1,19 @@
 extends TileMap
 
 @export var player : CharacterBody2D;
+@export var main : Node;
+@export var sun_min := 0;
+@export var sun_max := 10;
+@export var water_min := 0;
+@export var water_max := 2;
+@export var time_passed := 0;
+@export var sun_accumulates := false;
+@export var water_accumulates := true;
+
 var cells : Array;
 var cellsWidth := 8;
 var cellsHeight := 4;
+
 
 	
 func _ready():
@@ -17,18 +27,23 @@ func _ready():
 		cells.append(temparr);
 
 func time_passes(seed : int):
+	time_passed += 1;
 	var rng = RandomNumberGenerator.new();
+	print(str(sun_max));
 	rng.seed = seed;
 	for i in cellsWidth:
 		for j in cellsHeight:
-			cells[i][j].update_plot(rng.randi_range(0,2), rng.randi_range(0,10), cells);
+			cells[i][j].update_plot(rng.randi_range(water_min,water_max), rng.randi_range(sun_min,sun_max), cells);
+			cells[i][j].set_sun_accumulation(sun_accumulates);
+			cells[i][j].set_water_accumulation(water_accumulates);
 
 func time_regresses(seed : int):
+	time_passed -= 1;
 	var rng = RandomNumberGenerator.new();
 	rng.seed = seed;
 	for i in cellsWidth:
 		for j in cellsHeight:
-			cells[i][j].update_plot(-rng.randi_range(0,2), 0, cells);
+			cells[i][j].update_plot(-rng.randi_range(water_min,water_max), 0, cells);
 	
 func sow_seed(plant : Plant, x : int, y : int):
 	cells[x][y].add_plant(plant);

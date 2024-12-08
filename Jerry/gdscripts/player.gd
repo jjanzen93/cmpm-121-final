@@ -4,6 +4,10 @@ extends CharacterBody2D
 @export var plotTileMap : TileMap;
 @export var gameController : Node2D;
 @export var main : Node;
+@export var actions_taken := 0;
+@export var plants_cut := 0;
+@export var plants_planted := 0;
+@export var spaces_moved := 0;
 var TILE_SIZE : int;
 var currentLocation : Vector2 = Vector2(0,0);
 var mayMove : bool = true;
@@ -62,12 +66,13 @@ func check_pressed():
 	if direction[0] != direction[1] && direction[0] == 0 || direction[1] == 0:
 		if Input.is_action_just_pressed("move_buttons"):
 			move_character_in_tilemap(direction);
-			performs_action();
+			performs_action(true);
 	if Input.is_action_just_pressed("plant_seed"):
 		plant_seed_pressed();
 	
 
 func move_character_in_tilemap(vector2):
+	spaces_moved += 1;
 	currentLocation += vector2;
 	update_location();
 	pass
@@ -82,10 +87,12 @@ func plant_seed_pressed():
 	#if plant does exist, cut plant,
 	var temp = plotTileMap.return_plant(currentLocation[0],currentLocation[1]);
 	if temp != null:
+		plants_cut += 1;
 		if plotTileMap.cut_plant(currentLocation[0],currentLocation[1]):
 			gameController.increase_points(1); 
 	else:
 		#if plant doesnt exist, sow new plant.
+		plants_planted += 1;
 		if plotTileMap.is_within_bounds(currentLocation[0],currentLocation[1]):
 			var newPlant = plantScene.instantiate();
 			plotTileMap.add_child(newPlant);
@@ -94,9 +101,10 @@ func plant_seed_pressed():
 			var newPlantType = plantTypes[randNum];
 			newPlant.constructor(newPlantType.checkGrowth, newPlantType.name, newPlantType.sprite,currentLocation, randNum);
 			plotTileMap.sow_seed(newPlant, currentLocation[0],currentLocation[1]);
-	performs_action();
+	performs_action(false);
 
-func performs_action():
+func performs_action(movement):
+	actions_taken += 1;
 	plotTileMap.time_passes(gameController.turn);
 	print("time passes");
 	gameController.add_action();

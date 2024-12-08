@@ -40,12 +40,14 @@ func _on_undo_pressed():
 		update_game_state(undoArray.back());
 		#regress time
 		plotTileMap.time_regresses(turn);
+		if turn < 
 func _on_redo_pressed():
 	if redoArray.size() > 0:
 		undoArray.append(redoArray.pop_back());
 		update_game_state(undoArray.back());
 		#progress time
 		plotTileMap.time_passes(turn);
+		main.check_events();
 func _on_save_pressed():
 	var filename = "save_1.txt";
 	var save_num = 1;

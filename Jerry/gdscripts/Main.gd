@@ -125,8 +125,13 @@ func build_event(conditionName, valueName, changedAmount):
 	print("Condition not found");
 	return null;
 
+func check_undone_events():
+	for event in events:
+		if event.occurredTurn > game.turn:
+			event.occurredTurn = -1;
+
 func check_events():
 	for event in events:
-		if check_condition(event.condition) && !event.occurred:
+		if check_condition(event.condition) && event.occurredTurn == -1:
 			update_value(event.valueName, event.changedAmount);
-			event.occurred = true;
+			event.occurredTurn = game.turn;

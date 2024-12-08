@@ -28,9 +28,11 @@ sources/0 = SubResource("TileSetAtlasSource_3dmhg")
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hnsln"]
 
-[node name="MainScene" type="Node" node_paths=PackedStringArray("plotTileMap")]
+[node name="MainScene" type="Node" node_paths=PackedStringArray("plotTileMap", "player", "game")]
 script = ExtResource("1_mfeat")
 plotTileMap = NodePath("GameScene/SpriteTileMap")
+player = NodePath("GameScene/player")
+game = NodePath("GameScene")
 
 [node name="GameScene" type="Node2D" parent="." node_paths=PackedStringArray("pointLabel", "undoButton", "redoButton", "saveButton", "loadManButton", "loadAutoButton", "main", "player", "plotTileMap")]
 script = ExtResource("1_b8dfq")

@@ -21,15 +21,7 @@ func constructor(checkGrowth, newName, newSprite, newLocation, newtype):
 
 func checkGrowth(watertotal : int, sun : int, cells : Array):
 	checkGrowCondition.call(self, watertotal, sun, cells);
-"""
-func update_sun(sun, water):
-	
-	
-	if(sun >= sunRequired && water >= waterRequired && adjacentSatisfied):
-		
-		grow();
-	
-"""
+
 func grow():
 	if (growLevel >= maxGrowLevel):
 		return;
@@ -38,27 +30,7 @@ func grow():
 	
 func is_grown():
 	return growLevel == maxGrowLevel;
-"""
-func check_adjacency(x : int, y : int, cells : Array):
-	#checks if adjacent tiles match the needed planttype to satisfy growth conditions
-	var north = false;
-	var south = false;
-	var west = false;
-	var east = false;
-	if y - 1 > 0:
-		north = cells[x][y-1].get_plant() != null && cells[x][y-1].get_plant().return_plant_type() == adjacentType;
-	
-	if y + 1 < cells[0].size():
-		south = cells[x][y+1].get_plant() != null && cells[x][y+1].get_plant().return_plant_type() == adjacentType;
-	
-	if x - 1 > 0:
-		west = cells[x-1][y].get_plant() != null && cells[x-1][y].get_plant().return_plant_type() == adjacentType;
-	
-	if x + 1 < cells.size():
-		east = cells[x+1][y].get_plant() != null && cells[x+1][y].get_plant().return_plant_type() == adjacentType;
-	if north || south || west || east:
-		adjacentSatisfied = true;
-"""
+
 func return_plant_name() -> String:
 	return plantName;
 

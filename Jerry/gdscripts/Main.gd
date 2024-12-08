@@ -3,6 +3,8 @@ extends Node
 @export var plotTileMap : TileMap;
 @export var player: CharacterBody2D;
 @export var game: Node2D;
+@export var conditions := [];
+@export var events := [];
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -10,12 +12,26 @@ func _ready():
 		var file = FileAccess.open("user://external.txt", FileAccess.READ);
 		var line = file.get_line();
 		var array = line.split(" ");
-		print(array);
-		if line.left(3) == "val" || line.left(3) == "rul":
-			update_value(array[1], array[3].trim_suffix(";"));
-		elif line.left(3) == "con":
-			array = parse_parenthetical(line);
-		line = file.get_line();
+		var timeout = 0
+		while array[0] != "end" && timeout <= 1000:
+			timeout += 1;
+			if array[0] == "val" || array[0] == "rul":
+				print("update value");
+				update_value(array[1], array[3].trim_suffix(";"));
+			elif array[0] == "con":
+				print("build condition");
+				var name = array[1];
+				array = parse_parenthetical(line);
+				for condition in conditions:
+					if condition.name == name:
+						conditions.erase(condition);
+				conditions.append(build_condition(name, array[0], array[1]));
+			elif array[0] == "eve":
+				print("build event");
+				array = parse_parenthetical(line);
+				events.append(build_event(array[0], array[1], array[2]));
+			line = file.get_line();
+			array = line.split(" ");
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -35,6 +51,7 @@ func save_to_file(data):
 func autosave(data):
 	var file = FileAccess.open("user://save_files/save_0.txt", FileAccess.WRITE);
 	file.store_string(data);
+	check_events();
 
 func load_from_file(save_num):
 	var file = FileAccess.open(str("user://save_files/save_", save_num, ".txt"), FileAccess.READ);
@@ -48,33 +65,68 @@ func parse_parenthetical(statement):
 	return substring.split(",");
 
 func update_value(name, value):
-	print(name);
-	print(value);
 	if name == "sun_min":
 		plotTileMap.sun_min = int(value);
 	elif name == "sun_max":
-		print("changing sun_max")
 		plotTileMap.sun_max = int(value);
 	elif name == "water_min":
 		plotTileMap.water_min = int(value);
 	elif name == "water_max":
 		plotTileMap.water_max = int(value);
+	elif name == "points_earned":
+		game.increase_points(int(value));
 	elif name == "sun_accumulates":
-		plotTileMap.sun_accumulates = bool(value);
-	elif name == "rain_accumulates":
-		plotTileMap.rain_accumulates = bool(value);
+		if value == "true":
+			plotTileMap.sun_accumulates = true;
+		elif value == "false":
+			plotTileMap.sun_accumulates = false;
+		else:
+			print("Invalid boolean assignment");
+	elif name == "water_accumulates":
+		if value == "true":
+			plotTileMap.water_accumulates = true;
+		elif value == "false":
+			plotTileMap.water_accumulates = false;
+		else:
+			print("Invalid boolean assignment");
 	else:
 		print("Base value not found.");
 
 func check_condition(condition):
-	if condition.type == "time_passed" && plotTileMap.time_passed >= condition.value:
+	if condition.trackedValue == "time_passed" && plotTileMap.time_passed >= condition.triggerAmount:
 		return true;
-	if condition.type == "actions_taken" && game.turn >= condition.value:
+	if condition.trackedValue == "actions_taken" && game.turn >= condition.triggerAmount:
 		return true;
-	if condition.type == "plants_cut" && player.plants_cut >= condition.value:
+	if condition.trackedValue == "plants_cut" && player.plants_cut >= condition.triggerAmount:
 		return true;
-	if condition.type == "plants_planted" && player.plants_planted >= condition.value:
+	if condition.trackedValue == "plants_planted" && player.plants_planted >= condition.triggerAmount:
 		return true;
-	if condition.type == "spaces_moved" && player.spaces_moved >= condition.value:
+	if condition.trackedValue == "spaces_moved" && player.spaces_moved >= condition.triggerAmount:
 		return true;
 	return false;
+
+func build_condition(name, trackedValue, triggerAmount):
+	var newCondition = Condition.new();
+	newCondition.name = name;
+	newCondition.trackedValue = trackedValue;
+	newCondition.triggerAmount = int(triggerAmount);
+	return newCondition;
+
+func build_event(conditionName, valueName, changedAmount):
+	var newEvent : Event;
+	for condition in conditions:
+		if condition.name == conditionName:
+			newEvent = Event.new();
+			newEvent.condition = condition;
+			newEvent.valueName = valueName;
+			newEvent.changedAmount = changedAmount;
+			newEvent.occurred = false;
+			return newEvent;
+	print("Condition not found");
+	return null;
+
+func check_events():
+	for event in events:
+		if check_condition(event.condition) && !event.occurred:
+			update_value(event.valueName, event.changedAmount);
+			event.occurred = true;

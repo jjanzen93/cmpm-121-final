@@ -10,7 +10,7 @@ extends Node2D
 @export var player : CharacterBody2D;
 @export var plotTileMap : TileMap;
 @export var turn := 0;
-var points := 0;
+@export var points := 0;
 var byteArr : PackedByteArray;
 var undoArray := [];
 var redoArray := [];

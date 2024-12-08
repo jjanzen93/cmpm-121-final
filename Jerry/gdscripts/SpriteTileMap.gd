@@ -54,19 +54,20 @@ func return_plant(x : int, y : int):
 	
 	return cells[x][y].get_plant();
 	
-func cut_plant(x : int, y : int):
+func cut_plant(x : int, y : int) -> bool:
 	var isGrown = cells[x][y].get_plant().is_grown();
 	cells[x][y].get_plant().queue_free();
 	sow_seed(null, x,y);
 	
 	return isGrown;
 	
-func is_within_bounds(x : int, y : int):
+func is_within_bounds(x : int, y : int) -> bool:
 	if x < 0 || x >= cellsWidth || y < 0 || y >= cellsHeight:
 		return false;
 	return true;
 	
 func return_cells_for_undo() -> Array:
+	print(check_currently_growing());
 	var arr = []
 	for i in cellsWidth:
 		for j in cellsHeight:
@@ -76,7 +77,7 @@ func return_cells_for_undo() -> Array:
 				arr.append(cells[i][j].plant.return_plant_growth() * 10 + cells[i][j].plant.type);
 	return arr;
 
-func parse_gamestate(gamestate : Array):
+func parse_gamestate(gamestate : Array) -> void:
 	#ignore the first 4 entries of gamestate
 	var offset = 4;
 	for i in cellsWidth:
@@ -97,3 +98,11 @@ func parse_gamestate(gamestate : Array):
 			sow_seed(newPlant, i,j);
 			newPlant.set_growth(currentCell/10);
 
+func check_currently_growing() -> int:
+	var currentlyGrowing := 0;
+	for i in cellsWidth:
+		for j in cellsHeight:
+			if cells[i][j].get_plant() != null:
+				currentlyGrowing += 1;
+	
+	return currentlyGrowing;

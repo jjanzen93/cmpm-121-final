@@ -15,7 +15,8 @@ var plantScene = preload("res://Jerry/Scenes/Plant.tscn");
 var plantTypes = [
 {"name": "sunflower",
 "sprite" : "Jerry/assets/PlantC.png",
-"checkGrowth": func checkGrowth(plant : Plant, water : int, sun : int, cells : Array):
+"checkGrowth": func checkGrowth(plant : Plant, water : int,
+ sun : int, cells : Array):
 	if sun >= 8:
 		plant.grow();
 	plant.label.text = str("sun:", sun," water:",water);

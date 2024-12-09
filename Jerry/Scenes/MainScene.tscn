@@ -92,7 +92,7 @@ offset_right = -1.0
 offset_bottom = 66.0
 grow_horizontal = 0
 focus_mode = 0
-text = "Undo"
+text = "UNDO"
 
 [node name="Redo" type="Button" parent="GameScene/CanvasLayer"]
 anchors_preset = 1
@@ -103,7 +103,7 @@ offset_top = 67.0
 offset_bottom = 131.0
 grow_horizontal = 0
 focus_mode = 0
-text = "Redo"
+text = "REDO"
 
 [node name="Save" type="Button" parent="GameScene/CanvasLayer"]
 anchors_preset = 1
@@ -115,7 +115,7 @@ offset_right = -1.0
 offset_bottom = 196.0
 grow_horizontal = 0
 focus_mode = 0
-text = "Save"
+text = "SAVE"
 
 [node name="LoadManSave" type="MenuButton" parent="GameScene/CanvasLayer"]
 anchors_preset = 1
@@ -127,7 +127,7 @@ offset_right = 1.0
 offset_bottom = 239.0
 grow_horizontal = 0
 action_mode = 1
-text = "Load Manual Save"
+text = "LOADMAN"
 flat = false
 
 [node name="LoadAutoSave" type="MenuButton" parent="GameScene/CanvasLayer"]
@@ -140,7 +140,7 @@ offset_right = 3.0
 offset_bottom = 272.0
 grow_horizontal = 0
 action_mode = 1
-text = "Load Autosave"
+text = "LOADAUTO"
 flat = false
 
 [node name="PopupMenu" type="PopupMenu" parent="GameScene"]

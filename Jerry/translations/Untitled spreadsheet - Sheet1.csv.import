@@ -1,0 +1,17 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://c70naplgwfqxc"
+
+[deps]
+
+files=["res://Jerry/translations/Untitled spreadsheet - Sheet1.en.translation", "res://Jerry/translations/Untitled spreadsheet - Sheet1.ch.translation", "res://Jerry/translations/Untitled spreadsheet - Sheet1.ar.translation"]
+
+source_file="res://Jerry/translations/Untitled spreadsheet - Sheet1.csv"
+dest_files=["res://Jerry/translations/Untitled spreadsheet - Sheet1.en.translation", "res://Jerry/translations/Untitled spreadsheet - Sheet1.ch.translation", "res://Jerry/translations/Untitled spreadsheet - Sheet1.ar.translation"]
+
+[params]
+
+compress=true
+delimiter=0

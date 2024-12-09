@@ -16,6 +16,7 @@ var undoArray := [];
 var redoArray := [];
 var intsize = 4;
 func  _ready():
+	increase_points(0);
 	save_game_state();
 	save_data();
 	var temp = return_save_string();
@@ -162,4 +163,4 @@ func increment_turn():
 
 func increase_points(num):
 	points += num;
-	pointLabel.text = str("points: ", points)
+	pointLabel.text = str(tr("POINTS"),": ", points)

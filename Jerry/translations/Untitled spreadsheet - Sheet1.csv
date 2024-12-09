@@ -1,0 +1,7 @@
+keys,en,ch,ar
+POINTS,points,分,نقاط
+UNDO,undo,退步,تراجع
+REDO,redo,重做,إعادة
+SAVE,save,保存,حفظ الملف
+LOADMAN,load manual save,手动加载,تحميل الملف يدويا
+LOADAUTO,load auto save,自动加载,تحميل الملف تلقائيا

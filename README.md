@@ -137,3 +137,24 @@ Porting file saving from C# to GDScript was relatively simple, though the method
 
 Maintaining clean code has been a bit more challenging without the linter made available by the popularity of the language we were previously working in. Additionally, we are now using different IDEs according to our familiarity and comfort, which has had only the positive effect of neither one of us feeling particularly out of place.
 In the future, it would be pertinent to go through our code and ensure that at least naming conventions are consistent, and getting rid of any unused variables associated with some functionality that we were experimenting with. Not having that linter, especially when learning a new language and platform (as Jack is doing) poses some great challenges on both his and Jerry’s part that make for a deeply educational collaborative experience.
+
+# Devlog Entry #3 - 12/8/24
+
+## How we satisfied the software requirements
+### F0+F1+F2
+For the most part, our previous requirements were still satisfied in the same way, though the movement and action button(s) needed to be altered somewhat to support mobile play.
+### Internationalization
+The Godot game engine detects strings in text block elements like Labels and Buttons, and by using a special key that we made when we imported the translations, we can make that text block dynamic. To do this, we exported a csv file in the specific format that the Godot documentation specifies. Then we are able to import this file as translations which godot does automatically.
+### Localization
+We chose English, Mandarin, and Arabic. Jerry is fluent in mandarin so he was able to do the translation. No one on our team was fluent in Arabic so we used google translate. The language is automatically selected depending on the locale of the device. A locale code that is not supported defaults the game language to english.
+### Mobile Installation
+I took a look at the announcement Adam made in Canvas giving a small example of a PWA. I knew Godot had PWA support built-in, so I first ported the game to itch.io to test if it would play exported to the browser, using this video. After this was a success, I decided to move the game to Github Pages so it could be downloaded as a PWA. Unfortunately, I ran into an issue that requires Shared Array Buffer access to load properly. Luckily, I found a script here that enabled this access, and after a small amount of tweaking I got it to work! I used my housemate’s non-iOS phone to download the game and test.
+### Mobile Play (Offline)
+The only change needed to make to function on mobile was simply to add on-screen buttons that could be used to control the game. Outside of that, all of the other functionality ported over nicely and was able to be played offline without issue.
+## Reflection
+Since this is the last devlog, it would be good to examine the project as a whole in this reflection. Working in Godot was natural for one of us, but plagued with unfamiliarity for another. Despite this, we worked very well together, and assistance was provided when needed/available. As the project went on, that difference in familiarity diminished significantly, and our workflow sped up and became more streamlined as a result. In the future, that smooth flow should make getting started on games in complex engines as opposed to simple typescript/javascript far easier.
+For F3 specifically, some functionality needed to be made more modular or open to make it easier to be played on different platforms and locations. Knowing how to do this while creating the game might lead to some different design decisions in future projects, like starting out with internationalized and localized text. Another thing that would transfer to future projects is the foresight for features to not just be efficient, but easily built upon. An example is in our redo/undo features, where Jerry was trying to save as much space as possible but that then limited the amount of features that can be added in the feature without refactoring the redo/undo code.
+
+
+
+

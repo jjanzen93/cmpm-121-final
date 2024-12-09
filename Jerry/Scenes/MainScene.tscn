@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://6f7durqdgbcq"]
+[gd_scene load_steps=15 format=3 uid="uid://6f7durqdgbcq"]
 
 [ext_resource type="Script" path="res://Jerry/gdscripts/GameScene.gd" id="1_b8dfq"]
 [ext_resource type="Script" path="res://Jerry/gdscripts/Main.gd" id="1_mfeat"]
@@ -7,6 +7,8 @@
 [ext_resource type="Texture2D" uid="uid://2rgcwqh0q7n5" path="res://icon.svg" id="3_ws8ig"]
 [ext_resource type="Script" path="res://Jerry/gdscripts/SpriteTileMap.gd" id="3_y24fs"]
 [ext_resource type="Script" path="res://Jerry/gdscripts/player.gd" id="6_7k1b0"]
+[ext_resource type="Texture2D" uid="uid://75lfxy3krsjr" path="res://Jerry/assets/up copy.png" id="8_ukhoi"]
+[ext_resource type="Texture2D" uid="uid://c5owjgolnpbw0" path="res://Jerry/assets/plant.png" id="9_g765f"]
 
 [sub_resource type="TileSet" id="TileSet_lg3v6"]
 tile_size = Vector2i(128, 128)
@@ -143,9 +145,90 @@ action_mode = 1
 text = "LOADAUTO"
 flat = false
 
+[node name="Control" type="Control" parent="GameScene/CanvasLayer"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 121.0
+offset_top = 407.0
+offset_right = 161.0
+offset_bottom = 447.0
+scale = Vector2(1.5, 1.5)
+
+[node name="Up" type="Button" parent="GameScene/CanvasLayer/Control"]
+layout_mode = 0
+offset_right = 80.0
+offset_bottom = 80.0
+
+[node name="Sprite2D" type="Sprite2D" parent="GameScene/CanvasLayer/Control/Up"]
+texture_filter = 1
+position = Vector2(40.5, 39.5)
+scale = Vector2(2.46875, 2.46875)
+texture = ExtResource("8_ukhoi")
+
+[node name="Down" type="Button" parent="GameScene/CanvasLayer/Control"]
+texture_filter = 1
+layout_mode = 0
+offset_top = 80.0
+offset_right = 80.0
+offset_bottom = 160.0
+
+[node name="Sprite2D" type="Sprite2D" parent="GameScene/CanvasLayer/Control/Down"]
+texture_filter = 1
+position = Vector2(40.5, 40)
+rotation = 3.14159
+scale = Vector2(2.46875, 2.5)
+texture = ExtResource("8_ukhoi")
+
+[node name="Left" type="Button" parent="GameScene/CanvasLayer/Control"]
+texture_filter = 1
+layout_mode = 0
+offset_left = -80.0
+offset_top = 80.0
+offset_bottom = 160.0
+
+[node name="Sprite2D" type="Sprite2D" parent="GameScene/CanvasLayer/Control/Left"]
+texture_filter = 1
+position = Vector2(39.5, 40)
+rotation = -1.5708
+scale = Vector2(2.46875, 2.5)
+texture = ExtResource("8_ukhoi")
+
+[node name="Right" type="Button" parent="GameScene/CanvasLayer/Control"]
+texture_filter = 1
+layout_mode = 0
+offset_left = 80.0
+offset_top = 80.0
+offset_right = 160.0
+offset_bottom = 160.0
+
+[node name="Sprite2D" type="Sprite2D" parent="GameScene/CanvasLayer/Control/Right"]
+texture_filter = 1
+position = Vector2(40.5, 40)
+rotation = 1.5708
+scale = Vector2(2.46875, 2.5)
+texture = ExtResource("8_ukhoi")
+
+[node name="Plant" type="Button" parent="GameScene/CanvasLayer/Control"]
+texture_filter = 1
+layout_mode = 0
+offset_left = 532.0
+offset_right = 612.0
+offset_bottom = 80.0
+
+[node name="Sprite2D" type="Sprite2D" parent="GameScene/CanvasLayer/Control/Plant"]
+texture_filter = 1
+position = Vector2(40.6667, 40.3333)
+scale = Vector2(0.614584, 0.619792)
+texture = ExtResource("9_g765f")
+
 [node name="PopupMenu" type="PopupMenu" parent="GameScene"]
 
 [connection signal="pressed" from="GameScene/CanvasLayer/Undo" to="GameScene" method="_on_undo_pressed"]
 [connection signal="pressed" from="GameScene/CanvasLayer/Redo" to="GameScene" method="_on_redo_pressed"]
 [connection signal="pressed" from="GameScene/CanvasLayer/Save" to="GameScene" method="_on_save_pressed"]
 [connection signal="pressed" from="GameScene/CanvasLayer/LoadAutoSave" to="GameScene" method="_on_autosave_pressed"]
+[connection signal="pressed" from="GameScene/CanvasLayer/Control/Up" to="GameScene/player" method="_on_up_pressed"]
+[connection signal="pressed" from="GameScene/CanvasLayer/Control/Down" to="GameScene/player" method="_on_down_pressed"]
+[connection signal="pressed" from="GameScene/CanvasLayer/Control/Left" to="GameScene/player" method="_on_left_pressed"]
+[connection signal="pressed" from="GameScene/CanvasLayer/Control/Right" to="GameScene/player" method="_on_right_pressed"]
+[connection signal="pressed" from="GameScene/CanvasLayer/Control/Plant" to="GameScene/player" method="_on_plant_pressed"]

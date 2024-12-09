@@ -112,3 +112,42 @@ func performs_action(movement):
 	gameController.increment_turn();
 	main.autosave(gameController.return_save_string());
 	pass
+
+
+func _on_up_pressed():
+	if !mayMove:
+		return;
+	move_character_in_tilemap(Vector2(0,-1));
+	performs_action(true);
+	pass # Replace with function body.
+
+
+func _on_down_pressed():
+	if !mayMove:
+		return;
+	move_character_in_tilemap(Vector2(0,1));
+	performs_action(true);
+	pass # Replace with function body.
+
+
+func _on_left_pressed():
+	if !mayMove:
+		return;
+	move_character_in_tilemap(Vector2(-1,0));
+	performs_action(true);
+	pass # Replace with function body.
+
+
+func _on_right_pressed():
+	if !mayMove:
+		return;
+	move_character_in_tilemap(Vector2(1,0));
+	performs_action(true);
+	pass # Replace with function body.
+
+
+func _on_plant_pressed():
+	if !mayMove:
+		return;
+	plant_seed_pressed();
+	pass # Replace with function body.
